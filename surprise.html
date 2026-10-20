@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Your Surprise</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-love fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">♥ For <span data-her>You</span></a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="memories.html">Our Memories</a></li>
+        <li class="nav-item"><a class="nav-link active" href="surprise.html">Surprise</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="container">
+    <h1>Your Surprise 🎁</h1>
+    <p class="fs-5 mb-0">Play, tap and open everything</p>
+  </div>
+</header>
+
+<main>
+  <!-- Cake -->
+  <section>
+    <div class="container cake-area">
+      <div class="section-title reveal">
+        <h2>Make a Wish 🎂</h2>
+        <div class="divider"></div>
+      </div>
+      <div class="cake reveal">
+        <div class="candles">
+          <div class="candle"><div class="flame"></div></div>
+          <div class="candle"><div class="flame"></div></div>
+          <div class="candle"><div class="flame"></div></div>
+        </div>
+        <div class="layer l3"></div>
+        <div class="layer l2"></div>
+        <div class="layer l1"></div>
+        <div class="icing"></div>
+      </div>
+      <p id="cakeMsg" class="mt-4 fs-5 fw-medium">Tap each candle to blow it out and make a wish</p>
+      <button id="relight" class="btn btn-outline-love btn-sm">Light candles again</button>
+    </div>
+  </section>
+
+  <!-- Reasons -->
+  <section style="background:var(--blush)">
+    <div class="container text-center">
+      <div class="section-title reveal">
+        <h2>Reasons I Love You</h2>
+        <div class="divider"></div>
+      </div>
+      <div class="reason-box"><span id="reasonText" style="transition:opacity .3s">Press the button 💗</span></div>
+      <button id="reasonBtn" class="btn btn-love">Tell me a reason</button>
+    </div>
+  </section>
+
+  <!-- Letter -->
+  <section id="letter">
+    <div class="container">
+      <div class="section-title reveal">
+        <h2>A Letter For <span data-her>You</span> 💌</h2>
+        <p>Tap each card to flip it</p>
+        <div class="divider"></div>
+      </div>
+      <div class="row g-4" id="flipRow"></div>
+    </div>
+  </section>
+
+  <!-- Quiz -->
+  <section style="background:var(--blush)">
+    <div class="container">
+      <div class="section-title reveal">
+        <h2>How Well Do You Know Us?</h2>
+        <div class="divider"></div>
+      </div>
+      <div class="quiz-box reveal" id="quiz"></div>
+    </div>
+  </section>
+
+  <!-- Gift -->
+  <section>
+    <div class="container gift-wrap">
+      <div class="section-title reveal">
+        <h2>One Last Gift</h2>
+        <p>Tap the box to open it</p>
+        <div class="divider"></div>
+      </div>
+      <div id="gift" class="gift">🎁</div>
+      <p id="giftMsg" class="gift-message"></p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p class="mb-0">Made with ♥ by <span data-you>Your Name</span> · <span id="year"></span></p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
