@@ -239,3 +239,108 @@ main, section, header, footer, nav { position: relative; z-index: 1; }
 /* ---------- Reveal on scroll ---------- */
 .reveal { opacity: 0; transform: translateY(35px); transition: all .8s ease; }
 .reveal.visible { opacity: 1; transform: none; }
+
+/* Extra styles only for sorry.html */
+body.sorry-page { background: #120b24; color: #f3e9ff; }
+.sorry-page h1, .sorry-page h2, .sorry-page h3, .sorry-page h4 { color: #fff; }
+.sorry-page .navbar-love { background: rgba(20, 12, 40, .85); box-shadow: 0 2px 20px rgba(0, 0, 0, .4); }
+.sorry-page .navbar-love .nav-link { color: #f3e9ff; }
+.sorry-page .navbar-love .nav-link.active { color: #ff9bb3; }
+.sorry-page .navbar-toggler-icon { filter: invert(1); }
+.sorry-page .section-title h2 { color: #fff; }
+.sorry-page .section-title p { color: #c9b6e8; }
+.sorry-page .floating-hearts span { color: #ff9bb3; opacity: .25; }
+
+/* ---------- Hero ---------- */
+.sorry-hero {
+  min-height: 100vh; padding: 110px 0 60px; text-align: center;
+  display: flex; align-items: center; position: relative; overflow: hidden;
+  background: radial-gradient(ellipse at 50% 0%, #3a1c5e 0, #1a0f35 50%, #120b24 100%);
+}
+.stars { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.stars i { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: #fff; animation: twinkle 3s infinite ease-in-out; }
+@keyframes twinkle { 0%, 100% { opacity: .15; transform: scale(.7); } 50% { opacity: 1; transform: scale(1.3); } }
+.sorry-hero h1 { font-size: clamp(2.8rem, 9vw, 5.5rem); }
+.sorry-hero .lead { color: #d9c8f5; max-width: 600px; margin: 1rem auto 0; }
+.heart-big { font-size: clamp(4rem, 14vw, 7rem); display: inline-block; animation: beat 1.4s infinite; filter: drop-shadow(0 0 25px rgba(255, 90, 130, .6)); }
+@keyframes beat { 0%, 100% { transform: scale(1); } 15% { transform: scale(1.15); } 30% { transform: scale(1); } 45% { transform: scale(1.1); } }
+.mend { max-width: 360px; margin: 1.5rem auto 0; }
+.mend .progress { height: 12px; background: rgba(255, 255, 255, .12); border-radius: 20px; }
+.mend .progress-bar { background: linear-gradient(90deg, #ff9bb3, #e8587a); transition: width .8s; border-radius: 20px; }
+.mend small { color: #c9b6e8; display: block; margin-top: 6px; }
+
+/* ---------- Lanterns ---------- */
+.sorry-sec-alt { background: #1a1032; }
+.lantern {
+  position: relative; width: 84px; height: 112px; border: none; border-radius: 42% 42% 36% 36%;
+  background: radial-gradient(circle at 50% 35%, #fff0b8, #ffa63d 72%);
+  box-shadow: 0 0 30px 8px rgba(255, 170, 60, .45);
+  animation: bob 4s ease-in-out infinite; transition: filter .3s;
+  color: #5a2a00; font-weight: 700; font-size: 1.3rem; margin-bottom: 1.6rem;
+}
+.lantern::before { content: ""; position: absolute; top: -14px; left: 50%; width: 2px; height: 14px; background: #c9b6e8; transform: translateX(-50%); }
+.lantern::after { content: ""; position: absolute; bottom: -10px; left: 50%; width: 30px; height: 10px; background: #a35c1e; border-radius: 0 0 8px 8px; transform: translateX(-50%); }
+.lantern:hover { filter: brightness(1.15); transform: scale(1.06); }
+.lantern.read { background: radial-gradient(circle at 50% 35%, #f2e8ff, #9a7be0 72%); box-shadow: 0 0 22px 5px rgba(150, 120, 255, .45); color: #2d1b5e; }
+@keyframes bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -14px; } }
+.note-modal .modal-content { background: #fff8f5; color: #4a2c3d; border: none; border-radius: 22px; }
+.note-modal .modal-title { font-family: "Playfair Display", serif; color: #c93a5e; }
+#noteText { white-space: pre-line; font-size: 1.1rem; line-height: 1.7; }
+
+/* ---------- Envelope ---------- */
+.envelope { position: relative; width: min(320px, 92%); height: 210px; margin: 0 auto 1rem; cursor: pointer; transition: transform .3s; }
+.envelope:hover { transform: translateY(-5px); }
+.env-body { position: absolute; inset: 0; background: #e8587a; border-radius: 10px; box-shadow: 0 15px 40px rgba(0, 0, 0, .4); }
+.env-front { position: absolute; inset: 0; background: #d9446a; border-radius: 10px; z-index: 2; clip-path: polygon(0 100%, 0 30%, 50% 68%, 100% 30%, 100% 100%); }
+.env-flap { position: absolute; top: 0; left: 0; right: 0; height: 115px; background: #c93a5e; clip-path: polygon(0 0, 100% 0, 50% 100%); transform-origin: top; transition: transform .6s; z-index: 3; }
+.envelope.open .env-flap { transform: rotateX(180deg); z-index: 0; }
+.env-seal { position: absolute; top: 80px; left: 50%; transform: translateX(-50%); z-index: 4; font-size: 2rem; transition: opacity .3s; }
+.envelope.open .env-seal { opacity: 0; }
+.letter-paper {
+  max-width: 640px; margin: 0 auto; background: #fff8f5; color: #4a2c3d; border-radius: 6px 6px 18px 18px;
+  padding: 0 2rem; max-height: 0; overflow: hidden; opacity: 0;
+  transition: max-height 1.2s ease, opacity .8s, padding .6s;
+  font-family: "Playfair Display", serif; font-size: 1.12rem; line-height: 1.8;
+  background-image: repeating-linear-gradient(transparent, transparent 31px, #f3d9df 32px);
+}
+.letter-paper.show { max-height: 1600px; opacity: 1; padding: 2rem; }
+.letter-paper p { margin-bottom: 1rem; opacity: 0; transform: translateY(10px); transition: all .6s; }
+.letter-paper.show p { opacity: 1; transform: none; }
+.letter-paper .signoff { color: #c93a5e; font-weight: 700; margin-top: 1.5rem; }
+
+/* ---------- Jar ---------- */
+.jar { font-size: 6rem; display: inline-block; transition: transform .3s; }
+.jar.shake { animation: shake .5s; }
+@keyframes shake { 0%, 100% { transform: rotate(0); } 20% { transform: rotate(-12deg); } 40% { transform: rotate(10deg); } 60% { transform: rotate(-8deg); } 80% { transform: rotate(6deg); } }
+.jar-note {
+  max-width: 520px; min-height: 110px; margin: 1.2rem auto; padding: 1.6rem; border-radius: 6px;
+  background: #fff3a8; color: #4a3a00; font-family: "Playfair Display", serif; font-size: 1.25rem;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .35); transform: rotate(-1.5deg);
+  display: flex; align-items: center; justify-content: center;
+}
+.jar-note.pop { animation: pop .5s; }
+@keyframes pop { from { transform: scale(.6) rotate(-8deg); opacity: 0; } to { transform: scale(1) rotate(-1.5deg); opacity: 1; } }
+
+/* ---------- Promises ---------- */
+.promise-list { max-width: 620px; margin: 0 auto; }
+.promise { display: flex; gap: 14px; align-items: center; padding: 1rem 1.2rem; margin-bottom: .8rem; border-radius: 16px; background: rgba(255, 255, 255, .07); cursor: pointer; transition: all .25s; border: 1px solid rgba(255, 255, 255, .1); }
+.promise:hover { background: rgba(255, 255, 255, .12); }
+.promise input { display: none; }
+.promise .box { width: 28px; height: 28px; flex: none; border-radius: 50%; border: 2px solid #ff9bb3; display: flex; align-items: center; justify-content: center; color: transparent; transition: all .3s; }
+.promise input:checked + .box { background: #e8587a; border-color: #e8587a; color: #fff; transform: scale(1.15); }
+.promise input:checked ~ .txt { text-decoration: line-through; opacity: .6; }
+.promise-progress { max-width: 620px; margin: 1.5rem auto 0; text-align: center; color: #c9b6e8; }
+
+/* ---------- Forgive ---------- */
+.forgive-arena { position: relative; max-width: 560px; height: 200px; margin: 1rem auto; }
+.forgive-arena button { position: absolute; transition: all .25s; white-space: nowrap; }
+#yesBtn { left: 20%; top: 50%; translate: -50% -50%; }
+#noBtn { left: 72%; top: 50%; translate: -50% -50%; }
+.final-msg { max-width: 600px; margin: 1rem auto; font-family: "Playfair Display", serif; font-size: 1.5rem; color: #ffd1dc; opacity: 0; transform: translateY(20px); transition: all 1s; }
+.final-msg.show { opacity: 1; transform: none; }
+
+/* ---------- Reply ---------- */
+.reply-box { max-width: 620px; margin: 0 auto; }
+.reply-box textarea { background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .2); color: #fff; border-radius: 16px; padding: 1rem; }
+.reply-box textarea:focus { background: rgba(255, 255, 255, .12); color: #fff; border-color: #ff9bb3; box-shadow: 0 0 0 .2rem rgba(255, 155, 179, .25); }
+.reply-box textarea::placeholder { color: #a994cc; }
