@@ -136,7 +136,7 @@ function initCountdown() {
     let target = new Date(now.getFullYear(), month - 1, day);
     const endOfDay = new Date(target.getTime() + 86400000);
     if (now >= target && now < endOfDay) {
-      box.innerHTML = "<h2 class='display-font text-center w-100' style='color:var(--rose)'>🎉 It's your birthday today! 🎉</h2>";
+      box.innerHTML = "<h2 class='display-font text-center w-100' style='color:var(--rose)'>🎉 It was your birthday Yesterday! 🎉</h2>";
       return;
     }
     if (now >= endOfDay) target = new Date(now.getFullYear() + 1, month - 1, day);
@@ -302,3 +302,186 @@ function initGift() {
     confetti(250);
   });
 }
+
+/* Code for sorry.html only. Text lives in js/sorry-config.js */
+document.addEventListener("DOMContentLoaded", () => {
+  if (!document.body.classList.contains("sorry-page") || typeof SORRY === "undefined") return;
+  drawStars();
+  setupLanterns();
+  setupEnvelope();
+  setupJar();
+  setupPromises();
+  setupForgive();
+  setupReply();
+});
+
+const q = (s, el = document) => el.querySelector(s);
+
+function drawStars() {
+  const box = q("#stars");
+  if (!box) return;
+  for (let i = 0; i < 90; i++) {
+    const s = document.createElement("i");
+    s.style.left = Math.random() * 100 + "%";
+    s.style.top = Math.random() * 100 + "%";
+    s.style.animationDelay = Math.random() * 3 + "s";
+    s.style.animationDuration = 2 + Math.random() * 3 + "s";
+    box.appendChild(s);
+  }
+  q("#heroLine").textContent = SORRY.heroLine;
+}
+
+/* ---- Heart mending progress ---- */
+let mendedOnce = false;
+function mend(p) {
+  const pct = Math.round(p * 100);
+  q("#mendBar").style.width = pct + "%";
+  q("#mendText").textContent = pct + "% mended";
+  q("#bigHeart").textContent = p >= 1 ? "❤️" : p >= 0.5 ? "❤️‍🩹" : "💔";
+  if (p >= 1 && !mendedOnce) {
+    mendedOnce = true;
+    q("#mendText").textContent = "100% satisfy. Thank you for reading every note 💖";
+    confetti(140);
+  }
+}
+
+/* ---- Lanterns ---- */
+function setupLanterns() {
+  const box = q("#lanterns");
+  const total = SORRY.lanterns.length;
+  const read = new Set();
+  box.innerHTML = SORRY.lanterns.map((l, i) =>
+    `<div class="col-4 col-md-3 col-lg-2 text-center">
+       <button class="lantern" style="animation-delay:${(i * 0.45).toFixed(2)}s" data-i="${i}" aria-label="Open note ${i + 1}"><span>${i + 1}</span></button>
+     </div>`).join("");
+  const modal = new bootstrap.Modal(q("#noteModal"));
+  box.addEventListener("click", e => {
+    const b = e.target.closest(".lantern");
+    if (!b) return;
+    const i = +b.dataset.i;
+    q("#noteTitle").textContent = SORRY.lanterns[i].title;
+    q("#noteText").textContent = SORRY.lanterns[i].text;
+    modal.show();
+    b.classList.add("read");
+    read.add(i);
+    mend(read.size / total);
+  });
+}
+
+/* ---- Envelope letter ---- */
+function setupEnvelope() {
+  const env = q("#envelope");
+  const paper = q("#letterPaper");
+  const L = SORRY.letter;
+  paper.innerHTML =
+    `<p class="fw-bold">${esc(L.greeting)}</p>` +
+    L.paragraphs.map(p => `<p>${esc(p)}</p>`).join("") +
+    `<p class="signoff">${esc(L.signoff)}<br>${esc(typeof CONFIG !== "undefined" ? CONFIG.yourName : "")}</p>`;
+  paper.querySelectorAll("p").forEach((p, i) => (p.style.transitionDelay = 0.5 + i * 0.5 + "s"));
+  env.addEventListener("click", () => {
+    const open = env.classList.toggle("open");
+    paper.classList.toggle("show", open);
+  });
+}
+
+function esc(t) {
+  const d = document.createElement("div");
+  d.textContent = t;
+  return d.innerHTML;
+}
+
+/* ---- Apology jar ---- */
+function setupJar() {
+  const btn = q("#jarBtn");
+  const jar = q("#jar");
+  const note = q("#jarNote");
+  const count = q("#jarCount");
+  let bag = [];
+  let pulled = 0;
+  btn.addEventListener("click", () => {
+    if (!bag.length) bag = SORRY.jar.map((_, i) => i).sort(() => Math.random() - 0.5);
+    const i = bag.pop();
+    pulled++;
+    jar.classList.remove("shake");
+    void jar.offsetWidth;
+    jar.classList.add("shake");
+    setTimeout(() => {
+      note.textContent = SORRY.jar[i];
+      note.classList.remove("pop");
+      void note.offsetWidth;
+      note.classList.add("pop");
+    }, 350);
+    count.textContent = "Notes pulled: " + pulled;
+  });
+}
+
+/* ---- Promises ---- */
+function setupPromises() {
+  const list = q("#promises");
+  const out = q("#promiseProgress");
+  list.innerHTML = SORRY.promises.map((p, i) =>
+    `<label class="promise"><input type="checkbox" data-i="${i}"><span class="box">✓</span><span class="txt">${esc(p)}</span></label>`).join("");
+  const update = () => {
+    const done = list.querySelectorAll("input:checked").length;
+    const all = SORRY.promises.length;
+    out.textContent = done === all
+      ? "Apse kiya hua har wada nibhaounga 🤞💖"
+      : `${done} of ${all} promises accepted`;
+    if (done === all) confetti(100);
+  };
+  list.addEventListener("change", update);
+  update();
+}
+
+/* ---- Forgive me? (the No button runs away) ---- */
+function setupForgive() {
+  const arena = q("#arena");
+  const yes = q("#yesBtn");
+  const no = q("#noBtn");
+  const msg = q("#finalMsg");
+  q("#forgiveQ").textContent = SORRY.forgiveQuestion;
+  msg.textContent = SORRY.yesMessage;
+  let tries = 0;
+
+  const dodge = e => {
+    if (e) e.preventDefault();
+    tries++;
+    no.textContent = SORRY.noTexts[Math.min(tries, SORRY.noTexts.length - 1)];
+    const w = arena.clientWidth, h = arena.clientHeight;
+    no.style.left = 12 + Math.random() * (w - 24 - no.offsetWidth) + no.offsetWidth / 2 + "px";
+    no.style.top = 20 + Math.random() * (h - 40) + "px";
+    yes.style.scale = Math.min(1 + tries * 0.18, 2.2);
+  };
+  no.addEventListener("mouseenter", dodge);
+  no.addEventListener("touchstart", dodge, { passive: false });
+  no.addEventListener("click", dodge);
+
+  yes.addEventListener("click", () => {
+    arena.style.display = "none";
+    q("#forgiveQ").textContent = "💖";
+    msg.classList.add("show");
+    confetti(300);
+    setTimeout(() => confetti(200), 700);
+    setTimeout(() => confetti(200), 1400);
+  });
+}
+
+/* ---- Reply box ---- */
+function setupReply() {
+  q("#replyTitle").textContent = SORRY.replyTitle;
+  q("#replyHint").textContent = SORRY.replyHint;
+  const ta = q("#replyText");
+  const num = (SORRY.whatsapp || "").replace(/\D/g, "");
+  q("#sendWa").addEventListener("click", () => {
+    const text = ta.value.trim();
+    if (!text) { ta.focus(); return; }
+    window.open(`https://wa.me/${num}?text=${encodeURIComponent(text)}`, "_blank");
+  });
+  q("#copyReply").addEventListener("click", async () => {
+    const btn = q("#copyReply");
+    try { await navigator.clipboard.writeText(ta.value); btn.textContent = "Copied ✓"; }
+    catch (e) { ta.select(); btn.textContent = "Select & copy"; }
+    setTimeout(() => (btn.textContent = "Copy"), 2000);
+  });
+}
+
